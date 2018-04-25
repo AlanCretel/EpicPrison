@@ -1,0 +1,66 @@
+package fr.choco70.epicprison.listeners;
+
+import fr.choco70.epicprison.EpicPrison;
+import org.bukkit.GameMode;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.MainHand;
+
+import java.util.Random;
+import java.util.UUID;
+
+public class BlockBreakListener implements Listener {
+
+    private FileConfiguration config;
+    private EpicPrison plugin;
+
+    public BlockBreakListener(EpicPrison epicprison) {
+
+        this.plugin = epicprison;
+        this.config = plugin.getConfig();
+
+    }
+
+    @EventHandler
+    public void onBlockBreak(BlockBreakEvent event) {
+
+        Player player = event.getPlayer();
+        Block block = event.getBlock();
+        UUID playerUUID = player.getUniqueId();
+
+        if(player.getGameMode() != GameMode.CREATIVE) {
+
+            String blockMaterial = block.getType().toString();
+
+            if(config.get("block." + blockMaterial + ".xp") != null){
+                ItemStack itemInHand = player.getInventory().getItemInMainHand();
+                Integer fortuneLevel = itemInHand.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS);
+                Integer blockXP = Integer.parseInt(config.get("block." + blockMaterial + ".xp").toString());
+                if(config.get("player." + playerUUID + ".points") == null){
+                    config.set("player." + playerUUID + ".points", 0);
+                }
+                Integer playerXP = Integer.parseInt(config.get("player." + playerUUID + ".points").toString());
+                if(fortuneLevel > 0){
+                    Integer newXP = playerXP + blockXP * (fortuneLevel + 1);
+                    config.set("player." + playerUUID + ".points", newXP);
+                    plugin.saveConfig();
+                }
+                else{
+                    Integer newXP = playerXP + blockXP;
+                    config.set("player." + playerUUID + ".points", newXP);
+                    plugin.saveConfig();
+                }
+            }
+
+        }
+
+    }
+
+}
