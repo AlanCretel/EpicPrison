@@ -1,0 +1,20 @@
+name: EpicPrison
+version: 1.0
+description: Plugin officiel du serveur epicprison.lcmc.pro
+author: Choco70
+main: fr.choco70.epicprison.EpicPrison
+commands:
+  points:
+    description: Affiche les points d'un joueur
+    usage: Erreure de syntaxe... /points [set, add, remove] [joueur]
+  block:
+    description: Affiche les infos sur le block tenu en main
+    usage: Erreure de syntaxe... /block (set / del) [points]
+  epicenchant:
+    description: Enchanter avec des mining points
+    usage: Erreure de syntaxe... /epicenchant (Enchantment) (Levels)
+    aliases: [eench, eenchant]
+  epicreload:
+    description: Recharge la config
+    usage: Erreure de syntaxe... /epicreload
+    aliases: [ereload, erl]
