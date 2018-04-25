@@ -1,0 +1,11 @@
+block:
+  DIAMOND_ORE:
+    xp: 100
+  IRON_ORE:
+    xp: 25
+player:
+enchant:
+  dig_speed:
+    cost: 150
+  loot_bonus_blocks:
+    cost: 100
